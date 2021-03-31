@@ -13,80 +13,15 @@
         "mode": "RWC"
     },
     {
-        "id": "a7a9bc6c.eb3e5",
-        "type": "http in",
-        "z": "1e529aea.122b55",
-        "name": "http get test",
-        "url": "testing",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 300,
-        "y": 460,
-        "wires": [
-            [
-                "9ebfa90.851d458",
-                "663a761b.09c158"
-            ]
-        ]
-    },
-    {
-        "id": "722484a7.71484c",
-        "type": "http response",
-        "z": "1e529aea.122b55",
-        "name": "RestResponse",
-        "statusCode": "200",
-        "headers": {},
-        "x": 640,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "9ebfa90.851d458",
-        "type": "debug",
-        "z": "1e529aea.122b55",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "663a761b.09c158",
-        "type": "template",
-        "z": "1e529aea.122b55",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "This is the payload: {{payload}} !",
-        "output": "str",
-        "x": 430,
-        "y": 560,
-        "wires": [
-            [
-                "722484a7.71484c"
-            ]
-        ]
-    },
-    {
         "id": "dd94219d.f104d",
         "type": "sqlite",
         "z": "1e529aea.122b55",
         "mydb": "48cbe9c.a428418",
         "sqlquery": "fixed",
-        "sql": "CREATE TABLE HumTempReads (\n\tcontact_id INTEGER PRIMARY KEY,\n\tdevice_name TEXT NOT NULL,\n\thumidity REAL NOT NULL,\n\ttemperature REAL NOT NULL,\n\ttimestamp TEXT NOT NULL\n);",
+        "sql": "--DROP TABLE HumTempReads;\n\nCREATE TABLE HumTempReads (\n\tid INTEGER PRIMARY KEY,\n\tdevice_name TEXT NOT NULL,\n\thumidity REAL NOT NULL,\n\ttemperature REAL NOT NULL,\n\ttimestamp TEXT NOT NULL\n);",
         "name": "CreateHumTempTable",
         "x": 620,
-        "y": 100,
+        "y": 60,
         "wires": [
             []
         ]
@@ -103,7 +38,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 450,
-        "y": 100,
+        "y": 60,
         "wires": [
             [
                 "dd94219d.f104d"
@@ -118,10 +53,12 @@
         "sqlquery": "prepared",
         "sql": "Insert into HumTempReads\n(device_name, humidity, temperature, timestamp)\nvalues\n($device_name, $humidity, $temperature, $timestamp)\n",
         "name": "InsertIntoHumTempReads",
-        "x": 1030,
-        "y": 220,
+        "x": 990,
+        "y": 460,
         "wires": [
-            []
+            [
+                "39eadd7.1c30c22"
+            ]
         ]
     },
     {
@@ -146,8 +83,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 260,
-        "y": 200,
+        "x": 220,
+        "y": 380,
         "wires": [
             [
                 "834df4c3.fa9868"
@@ -164,8 +101,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 820,
-        "y": 220,
+        "x": 780,
+        "y": 460,
         "wires": [
             [
                 "f07f4407.c66538",
@@ -182,8 +119,8 @@
         "high": 10,
         "inte": "false",
         "property": "payload.humidity",
-        "x": 470,
-        "y": 200,
+        "x": 430,
+        "y": 380,
         "wires": [
             [
                 "1f6f5102.0203ef"
@@ -199,11 +136,12 @@
         "high": 10,
         "inte": "false",
         "property": "payload.temperature",
-        "x": 640,
-        "y": 200,
+        "x": 600,
+        "y": 380,
         "wires": [
             [
-                "47036527.c7764c"
+                "47036527.c7764c",
+                "4de5d624.843268"
             ]
         ]
     },
@@ -215,11 +153,12 @@
         "sqlquery": "fixed",
         "sql": "select * from HumTempReads;",
         "name": "ReadAllHumTempData",
-        "x": 570,
-        "y": 320,
+        "x": 580,
+        "y": 840,
         "wires": [
             [
-                "2c587c94.b95be4"
+                "2c587c94.b95be4",
+                "a01d4383.d16c6"
             ]
         ]
     },
@@ -234,8 +173,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 320,
-        "y": 320,
+        "x": 340,
+        "y": 780,
         "wires": [
             [
                 "feb46d7b.86c73"
@@ -247,7 +186,7 @@
         "type": "debug",
         "z": "1e529aea.122b55",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -255,8 +194,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 840,
-        "y": 320,
+        "x": 860,
+        "y": 780,
         "wires": []
     },
     {
@@ -264,7 +203,7 @@
         "type": "debug",
         "z": "1e529aea.122b55",
         "name": "FunctionOutpu",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -272,8 +211,128 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1010,
-        "y": 140,
+        "x": 970,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "ed3dbf37.5f0d4",
+        "type": "http in",
+        "z": "1e529aea.122b55",
+        "name": "ReadAllHumTemp",
+        "url": "/humtemp",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 360,
+        "y": 860,
+        "wires": [
+            [
+                "feb46d7b.86c73"
+            ]
+        ]
+    },
+    {
+        "id": "a01d4383.d16c6",
+        "type": "http response",
+        "z": "1e529aea.122b55",
+        "name": "ResponseReadAllHumTemp",
+        "statusCode": "200",
+        "headers": {},
+        "x": 930,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "b6dd5cdd.4ec3a",
+        "type": "http in",
+        "z": "1e529aea.122b55",
+        "name": "PostHumTemp",
+        "url": "/humtemp",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 460,
+        "wires": [
+            [
+                "3f73ffa.0d61c",
+                "45e4b167.17151"
+            ]
+        ]
+    },
+    {
+        "id": "39eadd7.1c30c22",
+        "type": "http response",
+        "z": "1e529aea.122b55",
+        "name": "ResponseHumTempPost",
+        "statusCode": "201",
+        "headers": {},
+        "x": 1280,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "3f73ffa.0d61c",
+        "type": "debug",
+        "z": "1e529aea.122b55",
+        "name": "PostRequest",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "45e4b167.17151",
+        "type": "function",
+        "z": "1e529aea.122b55",
+        "name": "AddTimestampToPayload",
+        "func": "msg.payload.timestamp = new Date()\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 490,
+        "y": 460,
+        "wires": [
+            [
+                "47036527.c7764c",
+                "4de5d624.843268"
+            ]
+        ]
+    },
+    {
+        "id": "4de5d624.843268",
+        "type": "debug",
+        "z": "1e529aea.122b55",
+        "name": "FunctionInput",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "9c05f49c.3cefc8",
+        "type": "comment",
+        "z": "1e529aea.122b55",
+        "name": "Curl post request that works. ",
+        "info": "curl http://192.168.0.168:1880/humtemp --data '{\"device_name\": \"ManualPost\", \"humidity\": \"2.2\", \"temperature\": \"3.3\"}' -H \"Content-Type: application/json\"",
+        "x": 180,
+        "y": 500,
         "wires": []
     }
 ]
