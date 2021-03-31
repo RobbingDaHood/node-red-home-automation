@@ -1,1 +1,279 @@
-[{"id":"1e529aea.122b55","type":"tab","label":"Flow 1","disabled":false,"info":""},{"id":"a7a9bc6c.eb3e5","type":"http in","z":"1e529aea.122b55","name":"http get test","url":"testing","method":"get","upload":false,"swaggerDoc":"","x":300,"y":460,"wires":[["9ebfa90.851d458","663a761b.09c158"]]},{"id":"722484a7.71484c","type":"http response","z":"1e529aea.122b55","name":"RestResponse","statusCode":"200","headers":{},"x":630,"y":540,"wires":[]},{"id":"9ebfa90.851d458","type":"debug","z":"1e529aea.122b55","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":640,"y":420,"wires":[]},{"id":"663a761b.09c158","type":"template","z":"1e529aea.122b55","name":"","field":"payload","fieldType":"msg","format":"handlebars","syntax":"mustache","template":"This is the payload: {{payload}} !","output":"str","x":430,"y":560,"wires":[["722484a7.71484c"]]}]
+[
+    {
+        "id": "1e529aea.122b55",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "48cbe9c.a428418",
+        "type": "sqlitedb",
+        "db": "/home/pi/databases/HumTemp.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "a7a9bc6c.eb3e5",
+        "type": "http in",
+        "z": "1e529aea.122b55",
+        "name": "http get test",
+        "url": "testing",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 460,
+        "wires": [
+            [
+                "9ebfa90.851d458",
+                "663a761b.09c158"
+            ]
+        ]
+    },
+    {
+        "id": "722484a7.71484c",
+        "type": "http response",
+        "z": "1e529aea.122b55",
+        "name": "RestResponse",
+        "statusCode": "200",
+        "headers": {},
+        "x": 640,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "9ebfa90.851d458",
+        "type": "debug",
+        "z": "1e529aea.122b55",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "663a761b.09c158",
+        "type": "template",
+        "z": "1e529aea.122b55",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "This is the payload: {{payload}} !",
+        "output": "str",
+        "x": 430,
+        "y": 560,
+        "wires": [
+            [
+                "722484a7.71484c"
+            ]
+        ]
+    },
+    {
+        "id": "dd94219d.f104d",
+        "type": "sqlite",
+        "z": "1e529aea.122b55",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "fixed",
+        "sql": "CREATE TABLE HumTempReads (\n\tcontact_id INTEGER PRIMARY KEY,\n\tdevice_name TEXT NOT NULL,\n\thumidity REAL NOT NULL,\n\ttemperature REAL NOT NULL,\n\ttimestamp TEXT NOT NULL\n);",
+        "name": "CreateHumTempTable",
+        "x": 620,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "36fa9b1f.dc3944",
+        "type": "inject",
+        "z": "1e529aea.122b55",
+        "name": "Trigger",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 450,
+        "y": 100,
+        "wires": [
+            [
+                "dd94219d.f104d"
+            ]
+        ]
+    },
+    {
+        "id": "f07f4407.c66538",
+        "type": "sqlite",
+        "z": "1e529aea.122b55",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "prepared",
+        "sql": "Insert into HumTempReads\n(device_name, humidity, temperature, timestamp)\nvalues\n($device_name, $humidity, $temperature, $timestamp)\n",
+        "name": "InsertIntoHumTempReads",
+        "x": 1030,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f825e5e.14ab9",
+        "type": "inject",
+        "z": "1e529aea.122b55",
+        "name": "TriggerRandomDevice",
+        "props": [
+            {
+                "p": "payload.device_name",
+                "v": "randomDevice",
+                "vt": "str"
+            },
+            {
+                "p": "payload.timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 260,
+        "y": 200,
+        "wires": [
+            [
+                "834df4c3.fa9868"
+            ]
+        ]
+    },
+    {
+        "id": "47036527.c7764c",
+        "type": "function",
+        "z": "1e529aea.122b55",
+        "name": "",
+        "func": "msg.params = { \n    $device_name:msg.payload.device_name, \n    $humidity:msg.payload.humidity, \n    $temperature:msg.payload.temperature, \n    $timestamp:Date.now()\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 820,
+        "y": 220,
+        "wires": [
+            [
+                "f07f4407.c66538",
+                "dcd3bee3.733e7"
+            ]
+        ]
+    },
+    {
+        "id": "834df4c3.fa9868",
+        "type": "random",
+        "z": "1e529aea.122b55",
+        "name": "add humidity",
+        "low": 1,
+        "high": 10,
+        "inte": "false",
+        "property": "payload.humidity",
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "1f6f5102.0203ef"
+            ]
+        ]
+    },
+    {
+        "id": "1f6f5102.0203ef",
+        "type": "random",
+        "z": "1e529aea.122b55",
+        "name": "add temperature",
+        "low": 1,
+        "high": 10,
+        "inte": "false",
+        "property": "payload.temperature",
+        "x": 640,
+        "y": 200,
+        "wires": [
+            [
+                "47036527.c7764c"
+            ]
+        ]
+    },
+    {
+        "id": "feb46d7b.86c73",
+        "type": "sqlite",
+        "z": "1e529aea.122b55",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "fixed",
+        "sql": "select * from HumTempReads;",
+        "name": "ReadAllHumTempData",
+        "x": 570,
+        "y": 320,
+        "wires": [
+            [
+                "2c587c94.b95be4"
+            ]
+        ]
+    },
+    {
+        "id": "ccc1997.c397d68",
+        "type": "inject",
+        "z": "1e529aea.122b55",
+        "name": "TriggerRead",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 320,
+        "y": 320,
+        "wires": [
+            [
+                "feb46d7b.86c73"
+            ]
+        ]
+    },
+    {
+        "id": "2c587c94.b95be4",
+        "type": "debug",
+        "z": "1e529aea.122b55",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "dcd3bee3.733e7",
+        "type": "debug",
+        "z": "1e529aea.122b55",
+        "name": "FunctionOutpu",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 140,
+        "wires": []
+    }
+]
