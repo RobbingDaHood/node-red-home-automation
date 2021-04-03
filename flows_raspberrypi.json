@@ -2,14 +2,21 @@
     {
         "id": "1e529aea.122b55",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "HumTemp",
+        "disabled": true,
+        "info": "Prototype backend for arduino project that would record Humidity and temperature. "
+    },
+    {
+        "id": "ed98a99f.da5ee8",
+        "type": "tab",
+        "label": "TerasseWeatherStatistics",
         "disabled": false,
-        "info": ""
+        "info": "Record event for water on the terasse and fetch weather info. \n\n"
     },
     {
         "id": "48cbe9c.a428418",
         "type": "sqlitedb",
-        "db": "/home/pi/databases/HumTemp.db",
+        "db": "/home/pi/databases/TerasseEvents.db",
         "mode": "RWC"
     },
     {
@@ -186,7 +193,7 @@
         "type": "debug",
         "z": "1e529aea.122b55",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -277,7 +284,7 @@
         "type": "debug",
         "z": "1e529aea.122b55",
         "name": "PostRequest",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -333,6 +340,184 @@
         "info": "curl http://192.168.0.168:1880/humtemp --data '{\"device_name\": \"ManualPost\", \"humidity\": \"2.2\", \"temperature\": \"3.3\"}' -H \"Content-Type: application/json\"",
         "x": 180,
         "y": 500,
+        "wires": []
+    },
+    {
+        "id": "d39584c2.9cb068",
+        "type": "comment",
+        "z": "1e529aea.122b55",
+        "name": "path",
+        "info": "http://192.168.1.168:1880/humtemp",
+        "x": 360,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "40843669.ef8048",
+        "type": "sqlite",
+        "z": "ed98a99f.da5ee8",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "fixed",
+        "sql": "--DROP TABLE HumTempReads;\n\nCREATE TABLE TerasseEvents (\n\tid INTEGER PRIMARY KEY,\n\ttimestamp TEXT NOT NULL,\n\tdescription TEXT NOT NULL\n);",
+        "name": "CreateTables",
+        "x": 610,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3971b0a8.7ef97",
+        "type": "inject",
+        "z": "ed98a99f.da5ee8",
+        "name": "Trigger",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 470,
+        "y": 140,
+        "wires": [
+            [
+                "40843669.ef8048"
+            ]
+        ]
+    },
+    {
+        "id": "d3892e28.4cc73",
+        "type": "sqlite",
+        "z": "ed98a99f.da5ee8",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "prepared",
+        "sql": "Insert into TerasseEvents\n(description, timestamp)\nvalues\n($description, $timestamp)\n",
+        "name": "InsertIntoHumTempReads",
+        "x": 970,
+        "y": 260,
+        "wires": [
+            [
+                "9581caf3.bb7b18",
+                "cc5cd4a.45ed128"
+            ]
+        ]
+    },
+    {
+        "id": "400880c0.dc1e3",
+        "type": "function",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "func": "msg.params = { \n    $description:msg.payload.description, \n    $timestamp:Date.now()\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 760,
+        "y": 260,
+        "wires": [
+            [
+                "d3892e28.4cc73",
+                "cc5cd4a.45ed128"
+            ]
+        ]
+    },
+    {
+        "id": "ac21427f.95294",
+        "type": "http in",
+        "z": "ed98a99f.da5ee8",
+        "name": "PostTerasseEvent",
+        "url": "/TerasseEvent",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "400880c0.dc1e3",
+                "cc5cd4a.45ed128"
+            ]
+        ]
+    },
+    {
+        "id": "9581caf3.bb7b18",
+        "type": "http response",
+        "z": "ed98a99f.da5ee8",
+        "name": "ResponseHumTempPost",
+        "statusCode": "201",
+        "headers": {},
+        "x": 1260,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "57034326.6c6f6c",
+        "type": "comment",
+        "z": "ed98a99f.da5ee8",
+        "name": "Curl post request that works. ",
+        "info": "curl http://192.168.1.168:1880/TerasseEvent --data '{\"description\": \"DWP: Sydlig\", \"timestamp\": \"1617382318584.0\"}' -H \"Content-Type: application/json\"",
+        "x": 200,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "cc5cd4a.45ed128",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "9bfb55cf.f3d3c8",
+        "type": "sqlite",
+        "z": "ed98a99f.da5ee8",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "fixed",
+        "sql": "select * from TerasseEvents;",
+        "name": "ReadAllHumTempData",
+        "x": 400,
+        "y": 460,
+        "wires": [
+            [
+                "10d48702.6f0009"
+            ]
+        ]
+    },
+    {
+        "id": "b9070b3.8a923f8",
+        "type": "http in",
+        "z": "ed98a99f.da5ee8",
+        "name": "ReadTerasseEvent",
+        "url": "/TerasseEvent",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 460,
+        "wires": [
+            [
+                "9bfb55cf.f3d3c8"
+            ]
+        ]
+    },
+    {
+        "id": "10d48702.6f0009",
+        "type": "http response",
+        "z": "ed98a99f.da5ee8",
+        "name": "ResponseReadAllTerasseEvent",
+        "statusCode": "200",
+        "headers": {},
+        "x": 690,
+        "y": 460,
         "wires": []
     }
 ]
