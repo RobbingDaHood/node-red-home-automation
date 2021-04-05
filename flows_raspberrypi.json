@@ -9,14 +9,21 @@
     {
         "id": "ed98a99f.da5ee8",
         "type": "tab",
-        "label": "TerasseWeatherStatistics",
+        "label": "TeraseEvents",
         "disabled": false,
-        "info": "Record event for water on the terasse and fetch weather info. \n\n"
+        "info": "Record event for water on the terasse \n"
+    },
+    {
+        "id": "c8d87243.5b455",
+        "type": "tab",
+        "label": "WeatherInfo",
+        "disabled": false,
+        "info": ""
     },
     {
         "id": "48cbe9c.a428418",
         "type": "sqlitedb",
-        "db": "/home/pi/databases/TerasseEvents.db",
+        "db": "/home/pi/databases/WeatherData.db",
         "mode": "RWC"
     },
     {
@@ -521,48 +528,49 @@
         "wires": []
     },
     {
-        "id": "5829023f.13be3c",
+        "id": "614520f1.788b2",
         "type": "http request",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "winddir",
         "method": "GET",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/winddir/Aalborg/2021/{{req.params.month}}",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/winddir/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
         "tls": "",
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1120,
-        "y": 700,
+        "x": 1380,
+        "y": 340,
         "wires": [
             [
-                "c7e5ba2b.9881e8",
-                "29c4565a.e385ba"
+                "83ba8ca.bf92e7",
+                "34a7eaa1.ba1806"
             ]
         ]
     },
     {
-        "id": "44e623a0.1b55bc",
+        "id": "6462301d.26ae7",
         "type": "http in",
-        "z": "ed98a99f.da5ee8",
-        "name": "/WeatherInMonth/:month",
-        "url": "/WeatherInMonth/:month",
+        "z": "c8d87243.5b455",
+        "name": "/WeatherInMonth/:year/:month",
+        "url": "/WeatherInMonth/:year/:month",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 190,
-        "y": 760,
+        "x": 160,
+        "y": 380,
         "wires": [
             [
-                "5829023f.13be3c"
+                "1a618cda.094b43",
+                "a9add6a3.57bc98"
             ]
         ]
     },
     {
-        "id": "a01f6bc9.34edf8",
+        "id": "d6bcada7.60c2d",
         "type": "inject",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "",
         "props": [
             {
@@ -580,93 +588,42 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 160,
-        "y": 680,
+        "x": 120,
+        "y": 300,
         "wires": [
             [
-                "534f9f19.90f43"
+                "384ff88.60b8808"
             ]
         ]
     },
     {
-        "id": "d8a425a0.bb38a8",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "MapRelevantFields",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 910,
-        "y": 1020,
-        "wires": []
-    },
-    {
-        "id": "c37a4404.d8b058",
+        "id": "aee65909.1a9838",
         "type": "http request",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "wind",
         "method": "GET",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/wind/Aalborg/2021/{{req.params.month}}",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/wind/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
         "tls": "",
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1110,
-        "y": 840,
+        "x": 1370,
+        "y": 480,
         "wires": [
             [
-                "c7e5ba2b.9881e8",
-                "ea9c8a21.61d138"
+                "83ba8ca.bf92e7",
+                "d4e6f2c3.30ea4"
             ]
         ]
     },
     {
-        "id": "761e326d.9093fc",
-        "type": "splitter",
-        "z": "ed98a99f.da5ee8",
-        "name": "Split parameters",
-        "property": "payload",
-        "x": 880,
-        "y": 1340,
-        "wires": [
-            [
-                "d2d49d0.c203f6",
-                "b16923a8.dd317"
-            ]
-        ]
-    },
-    {
-        "id": "b16923a8.dd317",
-        "type": "function",
-        "z": "ed98a99f.da5ee8",
-        "name": "MapRelevantFields",
-        "func": "dataserie = msg.payload.dataserie;\nnewDataserie = [];\n\nfor (var data of dataserie) {\n    newDataserie.push(\n        {\n            timestamp: data.dateString,\n            value: data.valueOneDecimal\n        }\n    )\n}\n\nmsg.payload = { \n    dataserie:newDataserie,\n    unit:msg.payload.unit, \n    parameter:msg.payload.parameter\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 910,
-        "y": 1160,
-        "wires": [
-            [
-                "d8a425a0.bb38a8",
-                "561bb51f.17b8cc"
-            ]
-        ]
-    },
-    {
-        "id": "c7e5ba2b.9881e8",
+        "id": "83ba8ca.bf92e7",
         "type": "debug",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "http",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -674,76 +631,14 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1110,
-        "y": 600,
+        "x": 1370,
+        "y": 240,
         "wires": []
     },
     {
-        "id": "d2d49d0.c203f6",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "split",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 870,
-        "y": 1280,
-        "wires": []
-    },
-    {
-        "id": "561bb51f.17b8cc",
+        "id": "34a7eaa1.ba1806",
         "type": "join",
-        "z": "ed98a99f.da5ee8",
-        "name": "",
-        "mode": "custom",
-        "build": "array",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "1",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 1170,
-        "y": 1160,
-        "wires": [
-            [
-                "e62cf461.b4f1f8"
-            ]
-        ]
-    },
-    {
-        "id": "e62cf461.b4f1f8",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "join",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1160,
-        "y": 1020,
-        "wires": []
-    },
-    {
-        "id": "29c4565a.e385ba",
-        "type": "join",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "",
         "mode": "custom",
         "build": "array",
@@ -760,19 +655,19 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 1550,
-        "y": 700,
+        "x": 1810,
+        "y": 340,
         "wires": [
             [
-                "ac61ff24.ba038",
-                "e4517939.26f658"
+                "81c3aa6b.2be498",
+                "75749e4c.9f02c"
             ]
         ]
     },
     {
-        "id": "ac61ff24.ba038",
+        "id": "81c3aa6b.2be498",
         "type": "debug",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "join",
         "active": false,
         "tosidebar": true,
@@ -782,29 +677,29 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1540,
-        "y": 560,
+        "x": 1800,
+        "y": 200,
         "wires": []
     },
     {
-        "id": "ea9c8a21.61d138",
+        "id": "d4e6f2c3.30ea4",
         "type": "splitter",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "Split parameters",
         "property": "payload",
-        "x": 1320,
-        "y": 840,
+        "x": 1580,
+        "y": 480,
         "wires": [
             [
-                "290092ba.1a0bbe",
-                "29c4565a.e385ba"
+                "e63c9366.4d864",
+                "34a7eaa1.ba1806"
             ]
         ]
     },
     {
-        "id": "290092ba.1a0bbe",
+        "id": "e63c9366.4d864",
         "type": "debug",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "split",
         "active": false,
         "tosidebar": true,
@@ -814,15 +709,428 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1310,
-        "y": 780,
+        "x": 1570,
+        "y": 420,
         "wires": []
     },
     {
-        "id": "608f1c9f.b9ca44",
+        "id": "b5421f0f.7b8dd",
         "type": "debug",
-        "z": "ed98a99f.da5ee8",
+        "z": "c8d87243.5b455",
         "name": "MapRelevantFields",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2070,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "75749e4c.9f02c",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "MapRelevantFields",
+        "func": "newpayload = []\n\nfor (var datsets of msg.payload) {\n    newDataserie = [];\n\n    for (var data of datsets.dataserie) {\n        newDataserie.push(\n            {\n                timestamp: data.dateString,\n                value: data.valueOneDecimal\n            }\n        )\n    }\n    \n    \n    newpayload.push(\n        {\n            dataserie:newDataserie,\n            unit:datsets.unit, \n            parameter:datsets.parameter\n        }\n    )\n    \n}\n\nmsg.payload = newpayload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 2070,
+        "y": 340,
+        "wires": [
+            [
+                "b5421f0f.7b8dd",
+                "193aec02.a5ec64",
+                "cac33495.445fd8"
+            ]
+        ]
+    },
+    {
+        "id": "384ff88.60b8808",
+        "type": "template",
+        "z": "c8d87243.5b455",
+        "name": "req.params",
+        "field": "req.params",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n    \"month\":\"01\",\n    \"year\":\"2021\"\n}",
+        "output": "json",
+        "x": 310,
+        "y": 300,
+        "wires": [
+            [
+                "a9add6a3.57bc98"
+            ]
+        ]
+    },
+    {
+        "id": "1a618cda.094b43",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "/WeatherInMonth/:year/:month",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 240,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "193aec02.a5ec64",
+        "type": "http response",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2400,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "f600a5ea.c18888",
+        "type": "comment",
+        "z": "c8d87243.5b455",
+        "name": "http://192.168.0.168:1880/WeatherInMonth/2021/Marts",
+        "info": "http://192.168.0.168:1880/WeatherInMonth/2021/Marts",
+        "x": 250,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "3e075f2c.9278c",
+        "type": "switch",
+        "z": "c8d87243.5b455",
+        "name": "IsPayloadEmpty",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 980,
+        "y": 560,
+        "wires": [
+            [
+                "eaf2fb8c.359798"
+            ],
+            [
+                "f74965e.3dd8498",
+                "e95010b9.4bcca"
+            ]
+        ]
+    },
+    {
+        "id": "9f4ee817.ad35b8",
+        "type": "sqlite",
+        "z": "c8d87243.5b455",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "fixed",
+        "sql": "\nCREATE TABLE WeatherData (\n\tid INTEGER PRIMARY KEY,\n\tyearmonth TEXT NOT NULL,\n\tdata TEXT NOT NULL\n);",
+        "name": "CreateTables",
+        "x": 910,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d8e7a0.ce7eb88",
+        "type": "inject",
+        "z": "c8d87243.5b455",
+        "name": "Trigger",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 80,
+        "wires": [
+            [
+                "9f4ee817.ad35b8"
+            ]
+        ]
+    },
+    {
+        "id": "82bc81ea.4c191",
+        "type": "sqlite",
+        "z": "c8d87243.5b455",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "prepared",
+        "sql": "Insert into WeatherData\n(yearmonth, data)\nvalues\n($yearmonth, $data)\n\n",
+        "name": "InsertIntoWeatherData",
+        "x": 2640,
+        "y": 280,
+        "wires": [
+            [
+                "a72db7d8.5dce68"
+            ]
+        ]
+    },
+    {
+        "id": "cac33495.445fd8",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "MapToDB",
+        "func": "msg.params = { \n    $yearmonth:msg.payload[0].dataserie[0].timestamp.substr(3,7), \n    $data:JSON.stringify(msg.payload)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 2400,
+        "y": 280,
+        "wires": [
+            [
+                "d85bad1e.758d5",
+                "82bc81ea.4c191"
+            ]
+        ]
+    },
+    {
+        "id": "d85bad1e.758d5",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "MapToDB",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "params",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2390,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "a72db7d8.5dce68",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "InsertIntoWeatherData",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2650,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c80902c.8798a",
+        "type": "sqlite",
+        "z": "c8d87243.5b455",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "fixed",
+        "sql": "--DROP TABLE WeatherData;\n",
+        "name": "DropTables",
+        "x": 910,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "12588774.00edd9",
+        "type": "inject",
+        "z": "c8d87243.5b455",
+        "name": "Trigger",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 140,
+        "wires": [
+            [
+                "c80902c.8798a"
+            ]
+        ]
+    },
+    {
+        "id": "307dc01.39d614",
+        "type": "sqlite",
+        "z": "c8d87243.5b455",
+        "mydb": "48cbe9c.a428418",
+        "sqlquery": "prepared",
+        "sql": "select * from WeatherData\nwhere yearmonth = $yearmonth;\n\n",
+        "name": "ReadWeatherData",
+        "x": 810,
+        "y": 300,
+        "wires": [
+            [
+                "3e075f2c.9278c",
+                "cc962859.3d7cf8"
+            ]
+        ]
+    },
+    {
+        "id": "a9add6a3.57bc98",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "ConstructYearMonth",
+        "func": "msg.params = { \n    $yearmonth:msg.req.params.month + \"-\" + msg.req.params.year \n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 560,
+        "y": 300,
+        "wires": [
+            [
+                "307dc01.39d614",
+                "af66b959.f86db8"
+            ]
+        ]
+    },
+    {
+        "id": "af66b959.f86db8",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "ConstructYearMonth",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "params",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cc962859.3d7cf8",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "ReadWeatherData",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "d431fb0f.f51ef8",
+        "type": "http response",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1330,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "98bccf06.c4571",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "MapToResponse",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1370,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "eaf2fb8c.359798",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "TranslateMonth",
+        "func": "newMonth = \"\"\n\nswitch (msg.req.params.month) {\n    case \"01\": newMonth = \"Januar\"; break;\n    case \"02\": newMonth = \"Februar\"; break;\n    case \"03\": newMonth = \"Marts\"; break;\n    case \"04\": newMonth = \"April\"; break;\n    case \"05\": newMonth = \"Maj\"; break;\n    case \"06\": newMonth = \"Juni\"; break;\n    case \"07\": newMonth = \"Juli\"; break;\n    case \"08\": newMonth = \"August\"; break;\n    case \"09\": newMonth = \"September\"; break;\n    case \"10\": newMonth = \"Oktober\"; break;\n    case \"11\": newMonth = \"November\"; break;\n    case \"12\": newMonth = \"December\"; break;\n}\n\nmsg.req.params.monthDKString = newMonth\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1160,
+        "y": 420,
+        "wires": [
+            [
+                "614520f1.788b2",
+                "aee65909.1a9838",
+                "2939a5dc.31a41a"
+            ]
+        ]
+    },
+    {
+        "id": "2939a5dc.31a41a",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "TranslateMonth",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "f74965e.3dd8498",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "MapToResponse",
+        "func": "msg.payload = JSON.parse(msg.payload[0].data);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1150,
+        "y": 700,
+        "wires": [
+            [
+                "d431fb0f.f51ef8",
+                "98bccf06.c4571"
+            ]
+        ]
+    },
+    {
+        "id": "e95010b9.4bcca",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "PayloadIsNotEmpty",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -831,46 +1139,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1810,
-        "y": 560,
+        "x": 1230,
+        "y": 580,
         "wires": []
-    },
-    {
-        "id": "e4517939.26f658",
-        "type": "function",
-        "z": "ed98a99f.da5ee8",
-        "name": "MapRelevantFields",
-        "func": "newpayload = []\n\nfor (var datsets of msg.payload) {\n    newDataserie = [];\n\n    for (var data of datsets.dataserie) {\n        newDataserie.push(\n            {\n                timestamp: data.dateString,\n                value: data.valueOneDecimal\n            }\n        )\n    }\n    \n    \n    newpayload.push(\n        {\n            dataserie:newDataserie,\n            unit:datsets.unit, \n            parameter:datsets.parameter\n        }\n    )\n    \n}\n\nmsg.payload = newpayload\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1810,
-        "y": 700,
-        "wires": [
-            [
-                "608f1c9f.b9ca44"
-            ]
-        ]
-    },
-    {
-        "id": "534f9f19.90f43",
-        "type": "template",
-        "z": "ed98a99f.da5ee8",
-        "name": "req.params",
-        "field": "req.params",
-        "fieldType": "msg",
-        "format": "json",
-        "syntax": "plain",
-        "template": "{\n    \"month\":\"April\"\n}",
-        "output": "json",
-        "x": 350,
-        "y": 680,
-        "wires": [
-            [
-                "5829023f.13be3c",
-                "c37a4404.d8b058"
-            ]
-        ]
     }
 ]
