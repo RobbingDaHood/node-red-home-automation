@@ -773,8 +773,8 @@
         "z": "c8d87243.5b455",
         "name": "http://192.168.0.168:1880/WeatherInMonth/2021/03",
         "info": "http://192.168.0.168:1880/WeatherInMonth/2021/03",
-        "x": 240,
-        "y": 560,
+        "x": 230,
+        "y": 460,
         "wires": []
     },
     {
@@ -1099,7 +1099,8 @@
         "y": 280,
         "wires": [
             [
-                "98bccf06.c4571"
+                "98bccf06.c4571",
+                "fed7ebc0.01e078"
             ]
         ]
     },
@@ -1108,7 +1109,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "PayloadIsNotEmpty",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1116,8 +1117,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1050,
-        "y": 340,
+        "x": 1070,
+        "y": 260,
         "wires": []
     },
     {
@@ -1293,7 +1294,7 @@
         "type": "function",
         "z": "c8d87243.5b455",
         "name": "AddcurrentTime",
-        "func": "msg.params.currentTime = new Date();\nreturn msg;",
+        "func": "msg.params.currentTimeHumanReadable = new Date();\nmsg.params.currentTime = new Date().getTime();\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1311,7 +1312,7 @@
         "type": "function",
         "z": "c8d87243.5b455",
         "name": "AddeMaxdate",
-        "func": "var maxDate = new Date(0,0,0);\n\nfor (var data of msg.payload.data[0].dataserie) {\n    const dateString = data.timestamp;\n    //node.warn(dateString);\n    day = dateString.substring(0,2);\n    month = dateString.substring(3,5);\n    year = dateString.substring(6,10);\n    //node.warn(day + \"-\" + month + \"-\" + year);\n    var currentDate = new Date(year, month-1, day, 23, 59, 59);\n    \n   // node.warn(currentDate);\n    \n    if (maxDate < currentDate) maxDate = currentDate;\n}\n\n\nmsg.params.maxDate = maxDate;\nreturn msg;",
+        "func": "var maxDate = new Date(0,0,0);\n\nfor (var data of msg.payload.data[0].dataserie) {\n    const dateString = data.timestamp;\n    //node.warn(dateString);\n    day = dateString.substring(0,2);\n    month = dateString.substring(3,5);\n    year = dateString.substring(6,10);\n    //node.warn(day + \"-\" + month + \"-\" + year);\n    var currentDate = new Date(year, month-1, day, 23, 59, 59);\n    \n   // node.warn(currentDate);\n    \n    if (maxDate < currentDate) maxDate = currentDate;\n}\n\n\nmsg.params.maxDateHumanReadable = maxDate;\nmsg.params.maxDate = maxDate.getTime();\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1329,12 +1330,12 @@
         "type": "switch",
         "z": "c8d87243.5b455",
         "name": "IsMaxDateLastDayOfMonth",
-        "property": "params.maxDate.getTime()",
+        "property": "params.maxDate",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "eq",
-                "v": "params.lastDayOfMaxDateMonth.getTime()",
+                "v": "params.lastDayOfMaxDateMonth",
                 "vt": "msg"
             },
             {
@@ -1348,7 +1349,8 @@
         "y": 280,
         "wires": [
             [
-                "d431fb0f.f51ef8"
+                "d431fb0f.f51ef8",
+                "bc7e4dc.d35e8b"
             ],
             [
                 "ef7a27bb.3a2398"
@@ -1360,7 +1362,7 @@
         "type": "function",
         "z": "c8d87243.5b455",
         "name": "AddMaxDayOfMonth",
-        "func": "var maxDate = msg.params.maxDate;\nvar lastDayOfMonth = new Date(maxDate.getFullYear(), maxDate.getMonth()+1, 0, 23,59.59, 59);\nmsg.params.lastDayOfMaxDateMonth = lastDayOfMonth;\nreturn msg;",
+        "func": "var maxDate = msg.params.maxDateHumanReadable;\nvar lastDayOfMonth = new Date(maxDate.getFullYear(), maxDate.getMonth()+1, 0, 23,59.59, 59);\nmsg.params.lastDayOfMaxDateMonthHumanReadable = lastDayOfMonth;\nmsg.params.lastDayOfMaxDateMonth = lastDayOfMonth.getTime();\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1379,7 +1381,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "AddMaxDayOfMonth",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1396,12 +1398,12 @@
         "type": "switch",
         "z": "c8d87243.5b455",
         "name": "IsMaxDateToday",
-        "property": "params.currentTime.getTime()",
+        "property": "params.currentTime",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "lt",
-                "v": "params.maxDate.getTime()",
+                "v": "params.maxDate",
                 "vt": "msg"
             },
             {
@@ -1415,11 +1417,56 @@
         "y": 280,
         "wires": [
             [
-                "d431fb0f.f51ef8"
+                "d431fb0f.f51ef8",
+                "6663552d.f4efec"
             ],
             [
                 "eaf2fb8c.359798"
             ]
         ]
+    },
+    {
+        "id": "bc7e4dc.d35e8b",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "MaxDateIsLastDayOfMonth",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2100,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "6663552d.f4efec",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "ItIsMaxDateToday",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2590,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "2db2b642.64f76a",
+        "type": "comment",
+        "z": "c8d87243.5b455",
+        "name": "Keeping this log",
+        "info": "Because it shows how often I need to fetch data and if I fetch the same data a lot. ",
+        "x": 2840,
+        "y": 480,
+        "wires": []
     }
 ]
