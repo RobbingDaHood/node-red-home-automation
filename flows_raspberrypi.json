@@ -544,7 +544,6 @@
         "y": 340,
         "wires": [
             [
-                "83ba8ca.bf92e7",
                 "34a7eaa1.ba1806"
             ]
         ]
@@ -610,30 +609,12 @@
         "proxy": "",
         "authType": "",
         "x": 1370,
-        "y": 480,
+        "y": 720,
         "wires": [
             [
-                "83ba8ca.bf92e7",
                 "d4e6f2c3.30ea4"
             ]
         ]
-    },
-    {
-        "id": "83ba8ca.bf92e7",
-        "type": "debug",
-        "z": "c8d87243.5b455",
-        "name": "http",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1370,
-        "y": 240,
-        "wires": []
     },
     {
         "id": "34a7eaa1.ba1806",
@@ -649,7 +630,7 @@
         "joinerType": "str",
         "accumulate": false,
         "timeout": "",
-        "count": "4",
+        "count": "14",
         "reduceRight": false,
         "reduceExp": "",
         "reduceInit": "",
@@ -688,7 +669,7 @@
         "name": "Split parameters",
         "property": "payload",
         "x": 1580,
-        "y": 480,
+        "y": 720,
         "wires": [
             [
                 "e63c9366.4d864",
@@ -709,8 +690,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1570,
-        "y": 420,
+        "x": 1590,
+        "y": 680,
         "wires": []
     },
     {
@@ -801,9 +782,9 @@
         "id": "f600a5ea.c18888",
         "type": "comment",
         "z": "c8d87243.5b455",
-        "name": "http://192.168.0.168:1880/WeatherInMonth/2021/Marts",
-        "info": "http://192.168.0.168:1880/WeatherInMonth/2021/Marts",
-        "x": 250,
+        "name": "http://192.168.0.168:1880/WeatherInMonth/2021/03",
+        "info": "http://192.168.0.168:1880/WeatherInMonth/2021/03",
+        "x": 240,
         "y": 560,
         "wires": []
     },
@@ -825,15 +806,14 @@
         "checkall": "false",
         "repair": false,
         "outputs": 2,
-        "x": 980,
-        "y": 560,
+        "x": 680,
+        "y": 520,
         "wires": [
             [
                 "eaf2fb8c.359798"
             ],
             [
-                "f74965e.3dd8498",
-                "e95010b9.4bcca"
+                "f74965e.3dd8498"
             ]
         ]
     },
@@ -1049,8 +1029,8 @@
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 1330,
-        "y": 740,
+        "x": 1110,
+        "y": 660,
         "wires": []
     },
     {
@@ -1066,8 +1046,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1370,
-        "y": 660,
+        "x": 1150,
+        "y": 580,
         "wires": []
     },
     {
@@ -1080,13 +1060,21 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1160,
+        "x": 1140,
         "y": 420,
         "wires": [
             [
                 "614520f1.788b2",
                 "aee65909.1a9838",
-                "2939a5dc.31a41a"
+                "2939a5dc.31a41a",
+                "4bbfe53a.6dfddc",
+                "3e65897b.2f3ac6",
+                "cf893fc4.d5d3e",
+                "55cc196b.673938",
+                "9bed92fd.bcef9",
+                "e56e8c63.843eb",
+                "a4fe8d50.55605",
+                "7de8c9ee.3e75b8"
             ]
         ]
     },
@@ -1103,8 +1091,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1170,
-        "y": 300,
+        "x": 1140,
+        "y": 380,
         "wires": []
     },
     {
@@ -1117,8 +1105,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1150,
-        "y": 700,
+        "x": 930,
+        "y": 620,
         "wires": [
             [
                 "d431fb0f.f51ef8",
@@ -1131,7 +1119,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "PayloadIsNotEmpty",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1139,8 +1127,176 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1230,
-        "y": 580,
+        "x": 930,
+        "y": 540,
         "wires": []
+    },
+    {
+        "id": "4bbfe53a.6dfddc",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "temperature",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/temperature/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1390,
+        "y": 760,
+        "wires": [
+            [
+                "d4e6f2c3.30ea4"
+            ]
+        ]
+    },
+    {
+        "id": "3e65897b.2f3ac6",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "snow",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/snow/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1370,
+        "y": 380,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
+    },
+    {
+        "id": "cf893fc4.d5d3e",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "lightning",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/lightning/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1380,
+        "y": 420,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
+    },
+    {
+        "id": "55cc196b.673938",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "drought",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/drought/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1380,
+        "y": 460,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
+    },
+    {
+        "id": "9bed92fd.bcef9",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "sunhours",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/sunhours/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1380,
+        "y": 500,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
+    },
+    {
+        "id": "e56e8c63.843eb",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "humidity",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/humidity/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1380,
+        "y": 540,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
+    },
+    {
+        "id": "a4fe8d50.55605",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "pressure",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/pressure/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1380,
+        "y": 580,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
+    },
+    {
+        "id": "7de8c9ee.3e75b8",
+        "type": "http request",
+        "z": "c8d87243.5b455",
+        "name": "precip",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/precip/Aalborg/{{req.params.year}}/{{req.params.monthDKString}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1370,
+        "y": 620,
+        "wires": [
+            [
+                "34a7eaa1.ba1806"
+            ]
+        ]
     }
 ]
