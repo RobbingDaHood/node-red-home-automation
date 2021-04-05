@@ -519,5 +519,358 @@
         "x": 690,
         "y": 460,
         "wires": []
+    },
+    {
+        "id": "5829023f.13be3c",
+        "type": "http request",
+        "z": "ed98a99f.da5ee8",
+        "name": "winddir",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/winddir/Aalborg/2021/{{req.params.month}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1120,
+        "y": 700,
+        "wires": [
+            [
+                "c7e5ba2b.9881e8",
+                "29c4565a.e385ba"
+            ]
+        ]
+    },
+    {
+        "id": "44e623a0.1b55bc",
+        "type": "http in",
+        "z": "ed98a99f.da5ee8",
+        "name": "/WeatherInMonth/:month",
+        "url": "/WeatherInMonth/:month",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 760,
+        "wires": [
+            [
+                "5829023f.13be3c"
+            ]
+        ]
+    },
+    {
+        "id": "a01f6bc9.34edf8",
+        "type": "inject",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 680,
+        "wires": [
+            [
+                "534f9f19.90f43"
+            ]
+        ]
+    },
+    {
+        "id": "d8a425a0.bb38a8",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "MapRelevantFields",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "c37a4404.d8b058",
+        "type": "http request",
+        "z": "ed98a99f.da5ee8",
+        "name": "wind",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://www.dmi.dk/dmidk_obsWS/rest/archive/daily/danmark/wind/Aalborg/2021/{{req.params.month}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1110,
+        "y": 840,
+        "wires": [
+            [
+                "c7e5ba2b.9881e8",
+                "ea9c8a21.61d138"
+            ]
+        ]
+    },
+    {
+        "id": "761e326d.9093fc",
+        "type": "splitter",
+        "z": "ed98a99f.da5ee8",
+        "name": "Split parameters",
+        "property": "payload",
+        "x": 880,
+        "y": 1340,
+        "wires": [
+            [
+                "d2d49d0.c203f6",
+                "b16923a8.dd317"
+            ]
+        ]
+    },
+    {
+        "id": "b16923a8.dd317",
+        "type": "function",
+        "z": "ed98a99f.da5ee8",
+        "name": "MapRelevantFields",
+        "func": "dataserie = msg.payload.dataserie;\nnewDataserie = [];\n\nfor (var data of dataserie) {\n    newDataserie.push(\n        {\n            timestamp: data.dateString,\n            value: data.valueOneDecimal\n        }\n    )\n}\n\nmsg.payload = { \n    dataserie:newDataserie,\n    unit:msg.payload.unit, \n    parameter:msg.payload.parameter\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 910,
+        "y": 1160,
+        "wires": [
+            [
+                "d8a425a0.bb38a8",
+                "561bb51f.17b8cc"
+            ]
+        ]
+    },
+    {
+        "id": "c7e5ba2b.9881e8",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "http",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1110,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "d2d49d0.c203f6",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "split",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "561bb51f.17b8cc",
+        "type": "join",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "1",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1170,
+        "y": 1160,
+        "wires": [
+            [
+                "e62cf461.b4f1f8"
+            ]
+        ]
+    },
+    {
+        "id": "e62cf461.b4f1f8",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "join",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "29c4565a.e385ba",
+        "type": "join",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "4",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1550,
+        "y": 700,
+        "wires": [
+            [
+                "ac61ff24.ba038",
+                "e4517939.26f658"
+            ]
+        ]
+    },
+    {
+        "id": "ac61ff24.ba038",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "join",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1540,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "ea9c8a21.61d138",
+        "type": "splitter",
+        "z": "ed98a99f.da5ee8",
+        "name": "Split parameters",
+        "property": "payload",
+        "x": 1320,
+        "y": 840,
+        "wires": [
+            [
+                "290092ba.1a0bbe",
+                "29c4565a.e385ba"
+            ]
+        ]
+    },
+    {
+        "id": "290092ba.1a0bbe",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "split",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1310,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "608f1c9f.b9ca44",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "MapRelevantFields",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1810,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "e4517939.26f658",
+        "type": "function",
+        "z": "ed98a99f.da5ee8",
+        "name": "MapRelevantFields",
+        "func": "newpayload = []\n\nfor (var datsets of msg.payload) {\n    newDataserie = [];\n\n    for (var data of datsets.dataserie) {\n        newDataserie.push(\n            {\n                timestamp: data.dateString,\n                value: data.valueOneDecimal\n            }\n        )\n    }\n    \n    \n    newpayload.push(\n        {\n            dataserie:newDataserie,\n            unit:datsets.unit, \n            parameter:datsets.parameter\n        }\n    )\n    \n}\n\nmsg.payload = newpayload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1810,
+        "y": 700,
+        "wires": [
+            [
+                "608f1c9f.b9ca44"
+            ]
+        ]
+    },
+    {
+        "id": "534f9f19.90f43",
+        "type": "template",
+        "z": "ed98a99f.da5ee8",
+        "name": "req.params",
+        "field": "req.params",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n    \"month\":\"April\"\n}",
+        "output": "json",
+        "x": 350,
+        "y": 680,
+        "wires": [
+            [
+                "5829023f.13be3c",
+                "c37a4404.d8b058"
+            ]
+        ]
     }
 ]
