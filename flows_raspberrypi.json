@@ -21,10 +21,179 @@
         "info": ""
     },
     {
+        "id": "5d962ba5.9b5bc4",
+        "type": "tab",
+        "label": "Dashboard - Main Menu",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3dfdec7a.a1b244",
+        "type": "tab",
+        "label": "Dashboard - TerasseEvent",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "48cbe9c.a428418",
         "type": "sqlitedb",
         "db": "/home/pi/databases/WeatherData.db",
         "mode": "RWC"
+    },
+    {
+        "id": "4f1f6911.3116a8",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 200,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "dd0b04aa.9ebc28",
+        "type": "ui_group",
+        "name": "Menu",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "c5e66d02.079ab",
+        "type": "ui_group",
+        "name": "Testing",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "483b3a40.22ca24",
+        "type": "ui_tab",
+        "name": "TerasseEventData",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "17d43085.90b03f",
+        "type": "ui_group",
+        "name": "DataPresenter",
+        "tab": "483b3a40.22ca24",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "1ed11c7.232e364",
+        "type": "ui_group",
+        "name": "Dynamic table example",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": false
+    },
+    {
+        "id": "86228.687a5dd88",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
     },
     {
         "id": "dd94219d.f104d",
@@ -1396,7 +1565,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "MaxDateIsLastDayOfMonth",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1413,7 +1582,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "ItIsMaxDateToday",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1456,8 +1625,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1280,
-        "y": 1040,
+        "x": 200,
+        "y": 740,
         "wires": [
             [
                 "4b6c1c23.3a0404"
@@ -1730,7 +1899,7 @@
         "type": "debug",
         "z": "ed98a99f.da5ee8",
         "name": "Join",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1792,7 +1961,8 @@
         "y": 780,
         "wires": [
             [
-                "ebf03a67.e71a38"
+                "ebf03a67.e71a38",
+                "b9ea0d16.4d215"
             ]
         ]
     },
@@ -1801,7 +1971,7 @@
         "type": "debug",
         "z": "ed98a99f.da5ee8",
         "name": "PrepareResponse",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2106,7 +2276,7 @@
         "type": "debug",
         "z": "ed98a99f.da5ee8",
         "name": "SplitPayload",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2151,5 +2321,508 @@
         "x": 2110,
         "y": 1040,
         "wires": []
+    },
+    {
+        "id": "2d612f04.c5a82",
+        "type": "ui_button",
+        "z": "5d962ba5.9b5bc4",
+        "name": "Testing",
+        "group": "dd0b04aa.9ebc28",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "button",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 350,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2144df05.5661d",
+        "type": "http in",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "url": "/TerasseEventsAndWeatherInfo",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 840,
+        "wires": [
+            [
+                "4b6c1c23.3a0404"
+            ]
+        ]
+    },
+    {
+        "id": "b9ea0d16.4d215",
+        "type": "http response",
+        "z": "ed98a99f.da5ee8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 2630,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "f45d6b2.468c498",
+        "type": "http request",
+        "z": "3dfdec7a.a1b244",
+        "name": "/TerasseEventsAndWeatherInfo",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/TerasseEventsAndWeatherInfo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "17ae9d7a.6eea23",
+                "b778b3ae.b9e46",
+                "2ac2f70c.4567a8",
+                "12afa6b7.9ed9f9",
+                "869b3ea6.2fce3"
+            ]
+        ]
+    },
+    {
+        "id": "17ae9d7a.6eea23",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "/TerasseEventsAndWeatherInfo",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "adc4dd2.ffffd2",
+        "type": "ui_ui_control",
+        "z": "3dfdec7a.a1b244",
+        "name": "TriggerAtLoad",
+        "events": "all",
+        "x": 220,
+        "y": 300,
+        "wires": [
+            [
+                "f45d6b2.468c498"
+            ]
+        ]
+    },
+    {
+        "id": "ac6e573a.cd60e8",
+        "type": "ui_table",
+        "z": "3dfdec7a.a1b244",
+        "group": "17d43085.90b03f",
+        "name": "terasseEventData",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 1170,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "b778b3ae.b9e46",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "terasseEventDataPRep",
+        "func": "msg.payload = msg.payload.terasseEventData;\n\nfor (var row of msg.payload) {\n    row.humanreadabletimestamp = new Date(parseInt(row.timestamp));\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 910,
+        "y": 200,
+        "wires": [
+            [
+                "ac6e573a.cd60e8"
+            ]
+        ]
+    },
+    {
+        "id": "9e310660.025618",
+        "type": "ui_text",
+        "z": "3dfdec7a.a1b244",
+        "group": "17d43085.90b03f",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "TerasseEvents",
+        "label": "TerasseEvents",
+        "format": "",
+        "layout": "row-spread",
+        "x": 1160,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "cd039241.13e43",
+        "type": "ui_text",
+        "z": "3dfdec7a.a1b244",
+        "group": "17d43085.90b03f",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Weather Data",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1160,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "5902cbfd.41f2a4",
+        "type": "ui_dropdown",
+        "z": "3dfdec7a.a1b244",
+        "name": "Pick Dataset",
+        "label": "Pick Dataset",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "17d43085.90b03f",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1070,
+        "y": 520,
+        "wires": [
+            [
+                "121d75d4.b3e7ba",
+                "73e279ba.f388f8"
+            ]
+        ]
+    },
+    {
+        "id": "2ac2f70c.4567a8",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "PrepareDropdown",
+        "func": "msg.options = [];\nyearMonthMap = msg.payload.yearMonthMap;\n\nfor (var datasets of yearMonthMap[Object.keys(yearMonthMap)[0]]) {\n    msg.options.push(datasets.parameter);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 840,
+        "y": 520,
+        "wires": [
+            [
+                "dacf1cc.418f1e",
+                "5902cbfd.41f2a4"
+            ]
+        ]
+    },
+    {
+        "id": "dacf1cc.418f1e",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "PrepareDropdown",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "121d75d4.b3e7ba",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "Pick Dataset",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "12afa6b7.9ed9f9",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "PrepareyYearMonth",
+        "func": "msg.options = Object.keys(msg.payload.yearMonthMap);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 840,
+        "y": 600,
+        "wires": [
+            [
+                "9c3870a6.62d6f"
+            ]
+        ]
+    },
+    {
+        "id": "9c3870a6.62d6f",
+        "type": "ui_dropdown",
+        "z": "3dfdec7a.a1b244",
+        "name": "PickYearMonth",
+        "label": "Pick YearMonth",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "17d43085.90b03f",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1080,
+        "y": 600,
+        "wires": [
+            [
+                "d5800d2c.10619",
+                "552b4a81.725b64"
+            ]
+        ]
+    },
+    {
+        "id": "d5800d2c.10619",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "PickYearMonth",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "d2ad066b.bac498",
+        "type": "ui_table",
+        "z": "3dfdec7a.a1b244",
+        "group": "17d43085.90b03f",
+        "name": "WeatherData",
+        "order": 6,
+        "width": "0",
+        "height": "0",
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 2150,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "38f59d88.f8d7f2",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "FindData",
+        "func": "datasetParameter = msg.payload.datasetParameter.toLocaleLowerCase();\ndatasetYearMonth = msg.payload.datasetYearMonth;\n\nyearMonthDataset = msg.payload.dataset.yearMonthMap[datasetYearMonth];\n\n\nfor (var data of yearMonthDataset) {\n    dataParameter = data.parameter.toLocaleLowerCase();\n    \n    if (dataParameter.localeCompare(datasetParameter)) {\n        msg.payload = data.dataserie;\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1910,
+        "y": 500,
+        "wires": [
+            [
+                "25524984.76ce26",
+                "d2ad066b.bac498"
+            ]
+        ]
+    },
+    {
+        "id": "25524984.76ce26",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "Preapre WeatherData",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1940,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "4f1a03e8.2e7c4c",
+        "type": "join",
+        "z": "3dfdec7a.a1b244",
+        "name": "WeatherDataJoiner",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1610,
+        "y": 500,
+        "wires": [
+            [
+                "38f59d88.f8d7f2",
+                "12c95f7d.1a21e1"
+            ]
+        ]
+    },
+    {
+        "id": "12c95f7d.1a21e1",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "WeatherDataJoiner",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1620,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "73e279ba.f388f8",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "",
+        "func": "msg.topic = \"datasetParameter\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1300,
+        "y": 520,
+        "wires": [
+            [
+                "4f1a03e8.2e7c4c",
+                "f2c0b1e8.172ef"
+            ]
+        ]
+    },
+    {
+        "id": "552b4a81.725b64",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "",
+        "func": "msg.topic = \"datasetYearMonth\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1300,
+        "y": 600,
+        "wires": [
+            [
+                "4f1a03e8.2e7c4c",
+                "d8021fb9.4c73a"
+            ]
+        ]
+    },
+    {
+        "id": "f2c0b1e8.172ef",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d8021fb9.4c73a",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1310,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "869b3ea6.2fce3",
+        "type": "function",
+        "z": "3dfdec7a.a1b244",
+        "name": "",
+        "func": "msg.topic = \"dataset\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 910,
+        "y": 380,
+        "wires": [
+            [
+                "4f1a03e8.2e7c4c"
+            ]
+        ]
     }
 ]
