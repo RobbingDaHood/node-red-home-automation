@@ -588,10 +588,11 @@
         "payload": "",
         "payloadType": "date",
         "x": 120,
-        "y": 300,
+        "y": 260,
         "wires": [
             [
-                "384ff88.60b8808"
+                "384ff88.60b8808",
+                "1478120e.81bf9e"
             ]
         ]
     },
@@ -700,7 +701,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "MapRelevantFields",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -915,7 +916,7 @@
         "z": "c8d87243.5b455",
         "mydb": "48cbe9c.a428418",
         "sqlquery": "fixed",
-        "sql": "--DROP TABLE WeatherData;\n",
+        "sql": "DROP TABLE WeatherData;\n",
         "name": "DropTables",
         "x": 910,
         "y": 140,
@@ -1056,7 +1057,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "TranslateMonth",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1314,8 +1315,8 @@
         "y": 280,
         "wires": [
             [
-                "d431fb0f.f51ef8",
-                "bc7e4dc.d35e8b"
+                "bc7e4dc.d35e8b",
+                "12d09009.d7ca3"
             ],
             [
                 "ef7a27bb.3a2398"
@@ -1382,8 +1383,8 @@
         "y": 280,
         "wires": [
             [
-                "d431fb0f.f51ef8",
-                "6663552d.f4efec"
+                "6663552d.f4efec",
+                "12d09009.d7ca3"
             ],
             [
                 "eaf2fb8c.359798"
@@ -1395,7 +1396,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "MaxDateIsLastDayOfMonth",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1412,7 +1413,7 @@
         "type": "debug",
         "z": "c8d87243.5b455",
         "name": "ItIsMaxDateToday",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1430,8 +1431,8 @@
         "z": "c8d87243.5b455",
         "name": "Keeping this log",
         "info": "Because it shows how often I need to fetch data and if I fetch the same data a lot. ",
-        "x": 2840,
-        "y": 480,
+        "x": 4100,
+        "y": 340,
         "wires": []
     },
     {
@@ -1455,8 +1456,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 160,
-        "y": 760,
+        "x": 1280,
+        "y": 1040,
         "wires": [
             [
                 "4b6c1c23.3a0404"
@@ -1615,7 +1616,7 @@
         "y": 780,
         "wires": [
             [
-                "efc7458c.a99738",
+                "e8ce4818.2111c8",
                 "5ded848e.869bdc"
             ]
         ]
@@ -1638,23 +1639,6 @@
                 "8d9c5934.5e4078"
             ]
         ]
-    },
-    {
-        "id": "efc7458c.a99738",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "SplitPayload",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1530,
-        "y": 740,
-        "wires": []
     },
     {
         "id": "8d9c5934.5e4078",
@@ -1737,7 +1721,6 @@
         "wires": [
             [
                 "52683df9.b4f844",
-                "14c35e90.231311",
                 "cbf9329.8b08bd"
             ]
         ]
@@ -1751,8 +1734,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 1950,
@@ -1764,7 +1747,7 @@
         "type": "function",
         "z": "ed98a99f.da5ee8",
         "name": "FillYearMonthMap",
-        "func": "for (var weatherDataMonth of msg.payload) {\n    tokens = weatherDataMonth.yearmonth.split(\"-\");\n    year = tokens[0];\n    month = tokens[1];\n    \n    msg.params.yearMonthMap[year + \"-\" + month] = weatherDataMonth.data;\n}\n\nreturn msg;",
+        "func": "for (var weatherDataMonth of msg.payload) {\n    msg.params.yearMonthMap[weatherDataMonth.yearmonth] = \n        weatherDataMonth.data;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1777,23 +1760,6 @@
                 "6a0ede7d.25d25"
             ]
         ]
-    },
-    {
-        "id": "14c35e90.231311",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "Join",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "params",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1950,
-        "y": 700,
-        "wires": []
     },
     {
         "id": "b63629e7.65b6e8",
@@ -1897,8 +1863,8 @@
         "wires": [
             [
                 "cac33495.445fd8",
-                "d431fb0f.f51ef8",
-                "f378a6e9.d52448"
+                "f378a6e9.d52448",
+                "12d09009.d7ca3"
             ]
         ]
     },
@@ -1906,15 +1872,16 @@
         "id": "f378a6e9.d52448",
         "type": "debug",
         "z": "c8d87243.5b455",
-        "name": "",
-        "active": false,
+        "name": "FetchedDataReady",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 4090,
+        "x": 4110,
         "y": 380,
         "wires": []
     },
@@ -1969,6 +1936,220 @@
         "statusType": "auto",
         "x": 1560,
         "y": 240,
+        "wires": []
+    },
+    {
+        "id": "1478120e.81bf9e",
+        "type": "template",
+        "z": "c8d87243.5b455",
+        "name": "req.params",
+        "field": "req.params",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n    \"month\":\"02\",\n    \"year\":\"2021\"\n}",
+        "output": "json",
+        "x": 310,
+        "y": 240,
+        "wires": [
+            [
+                "a9add6a3.57bc98"
+            ]
+        ]
+    },
+    {
+        "id": "e378080b.977338",
+        "type": "link in",
+        "z": "c8d87243.5b455",
+        "name": "WeatherInfoIn",
+        "links": [
+            "73d71c7a.359884"
+        ],
+        "x": 65,
+        "y": 580,
+        "wires": [
+            [
+                "a9add6a3.57bc98",
+                "b029a535.a0c358"
+            ]
+        ]
+    },
+    {
+        "id": "7ddfe60f.7be0a8",
+        "type": "comment",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "info": "req.params = {\n    \"month\":\"02\",\n    \"year\":\"2021\"\n}",
+        "x": 110,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "a15d7ecd.681e8",
+        "type": "link out",
+        "z": "c8d87243.5b455",
+        "name": "WeatherInfoOut",
+        "links": [
+            "f93efb3.9690908"
+        ],
+        "x": 4065,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "12d09009.d7ca3",
+        "type": "switch",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 3670,
+        "y": 60,
+        "wires": [
+            [
+                "d431fb0f.f51ef8"
+            ]
+        ]
+    },
+    {
+        "id": "f93efb3.9690908",
+        "type": "link in",
+        "z": "ed98a99f.da5ee8",
+        "name": "TerasseEventToWeatherInfoIn",
+        "links": [
+            "a15d7ecd.681e8"
+        ],
+        "x": 1835,
+        "y": 960,
+        "wires": [
+            [
+                "b003527f.59184",
+                "2d2f52a3.0f057e"
+            ]
+        ]
+    },
+    {
+        "id": "73d71c7a.359884",
+        "type": "link out",
+        "z": "ed98a99f.da5ee8",
+        "name": "TerasseEventToWeatherInfoOut",
+        "links": [
+            "e378080b.977338"
+        ],
+        "x": 1835,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "9e2f8058.41fd6",
+        "type": "function",
+        "z": "ed98a99f.da5ee8",
+        "name": "MapToLInk",
+        "func": "msg.req = {\n    params : {\n        month:msg.payload.month,\n        year:msg.payload.year\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1730,
+        "y": 1020,
+        "wires": [
+            [
+                "73d71c7a.359884",
+                "587bb49.167894c"
+            ]
+        ]
+    },
+    {
+        "id": "587bb49.167894c",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "MapToLInk",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1710,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "b029a535.a0c358",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "WeatherInfoIn",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 290,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "e8ce4818.2111c8",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "SplitPayload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1530,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "b003527f.59184",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "TerasseEventToWeatherInfoIn",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2110,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "2d2f52a3.0f057e",
+        "type": "debug",
+        "z": "ed98a99f.da5ee8",
+        "name": "TerasseEventToWeatherInfoIn",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "parts",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2110,
+        "y": 1040,
         "wires": []
     }
 ]
