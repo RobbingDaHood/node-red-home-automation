@@ -2396,7 +2396,7 @@
                 "b778b3ae.b9e46",
                 "2ac2f70c.4567a8",
                 "12afa6b7.9ed9f9",
-                "869b3ea6.2fce3"
+                "ad50239b.7622c"
             ]
         ]
     },
@@ -2423,11 +2423,12 @@
         "z": "3dfdec7a.a1b244",
         "name": "TriggerAtLoad",
         "events": "all",
-        "x": 220,
-        "y": 300,
+        "x": 300,
+        "y": 420,
         "wires": [
             [
-                "f45d6b2.468c498"
+                "f45d6b2.468c498",
+                "3103f640.eb10ea"
             ]
         ]
     },
@@ -2520,7 +2521,7 @@
         "wires": [
             [
                 "121d75d4.b3e7ba",
-                "73e279ba.f388f8"
+                "6c7176f0.582088"
             ]
         ]
     },
@@ -2529,7 +2530,7 @@
         "type": "function",
         "z": "3dfdec7a.a1b244",
         "name": "PrepareDropdown",
-        "func": "msg.options = [];\nyearMonthMap = msg.payload.yearMonthMap;\n\nfor (var datasets of yearMonthMap[Object.keys(yearMonthMap)[0]]) {\n    msg.options.push(datasets.parameter);\n}\n\nreturn msg;",
+        "func": "msg.options = [];\nyearMonthMap = msg.payload.yearMonthMap;\n\nfor (var datasets of yearMonthMap[Object.keys(yearMonthMap)[0]]) {\n    msg.options.push(datasets.parameter);\n}\n\nmsg.payload = flow.get(\"datasetParameter\");\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2548,7 +2549,7 @@
         "type": "debug",
         "z": "3dfdec7a.a1b244",
         "name": "PrepareDropdown",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2565,7 +2566,7 @@
         "type": "debug",
         "z": "3dfdec7a.a1b244",
         "name": "Pick Dataset",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2582,7 +2583,7 @@
         "type": "function",
         "z": "3dfdec7a.a1b244",
         "name": "PrepareyYearMonth",
-        "func": "msg.options = Object.keys(msg.payload.yearMonthMap);\nreturn msg;",
+        "func": "msg.options = Object.keys(msg.payload.yearMonthMap);\nmsg.payload = flow.get(\"datasetYearMonth\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2618,7 +2619,7 @@
         "wires": [
             [
                 "d5800d2c.10619",
-                "552b4a81.725b64"
+                "751d1c51.911c64"
             ]
         ]
     },
@@ -2627,7 +2628,7 @@
         "type": "debug",
         "z": "3dfdec7a.a1b244",
         "name": "PickYearMonth",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2645,32 +2646,32 @@
         "z": "3dfdec7a.a1b244",
         "group": "17d43085.90b03f",
         "name": "WeatherData",
-        "order": 6,
+        "order": 8,
         "width": "0",
         "height": "0",
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 2150,
-        "y": 500,
+        "x": 2250,
+        "y": 640,
         "wires": []
     },
     {
         "id": "38f59d88.f8d7f2",
         "type": "function",
         "z": "3dfdec7a.a1b244",
-        "name": "FindData",
-        "func": "datasetParameter = msg.payload.datasetParameter.toLocaleLowerCase();\ndatasetYearMonth = msg.payload.datasetYearMonth;\n\nyearMonthDataset = msg.payload.dataset.yearMonthMap[datasetYearMonth];\n\n\nfor (var data of yearMonthDataset) {\n    dataParameter = data.parameter.toLocaleLowerCase();\n    \n    if (dataParameter.localeCompare(datasetParameter)) {\n        msg.payload = data.dataserie;\n    }\n}\n\nreturn msg;",
+        "name": "FetchData",
+        "func": "datasetParameter = flow.get(\"datasetParameter\");\nif(!datasetParameter){\n  node.warn(\"datasetParameter is empty\");\n  return null;// halt flow / don't pass msg to next node\n}\n\ndatasetYearMonth = flow.get(\"datasetYearMonth\");\nif(!datasetYearMonth){\n  node.warn(\"datasetYearMonth is empty\");\n  return null;// halt flow / don't pass msg to next node\n}\n\nweatherdata = flow.get(\"weatherdata\");\nif(!weatherdata){\n  node.warn(\"weatherdata is empty\");\n  return null;// halt flow / don't pass msg to next node\n}\n\nmsg.payload = {\n    datasetParameter : datasetParameter,\n    datasetYearMonth : datasetYearMonth,\n    weatherdata : weatherdata,\n}\n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1910,
-        "y": 500,
+        "x": 1630,
+        "y": 580,
         "wires": [
             [
                 "25524984.76ce26",
-                "d2ad066b.bac498"
+                "2b06b4ea.be040c"
             ]
         ]
     },
@@ -2678,8 +2679,8 @@
         "id": "25524984.76ce26",
         "type": "debug",
         "z": "3dfdec7a.a1b244",
-        "name": "Preapre WeatherData",
-        "active": true,
+        "name": "FetchData",
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2687,142 +2688,161 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1940,
-        "y": 460,
+        "x": 1650,
+        "y": 540,
         "wires": []
     },
     {
-        "id": "4f1a03e8.2e7c4c",
-        "type": "join",
+        "id": "fadc9fd2.efd73",
+        "type": "ui_text",
         "z": "3dfdec7a.a1b244",
-        "name": "WeatherDataJoiner",
-        "mode": "custom",
-        "build": "object",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "",
-        "count": "3",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 1610,
-        "y": 500,
-        "wires": [
-            [
-                "38f59d88.f8d7f2",
-                "12c95f7d.1a21e1"
-            ]
-        ]
-    },
-    {
-        "id": "12c95f7d.1a21e1",
-        "type": "debug",
-        "z": "3dfdec7a.a1b244",
-        "name": "WeatherDataJoiner",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1620,
-        "y": 460,
+        "group": "17d43085.90b03f",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "Unit",
+        "label": "Unit",
+        "format": "{{msg.params.unit}}",
+        "layout": "row-left",
+        "x": 2230,
+        "y": 580,
         "wires": []
     },
     {
-        "id": "73e279ba.f388f8",
+        "id": "3103f640.eb10ea",
         "type": "function",
         "z": "3dfdec7a.a1b244",
-        "name": "",
-        "func": "msg.topic = \"datasetParameter\";\nreturn msg;",
+        "name": "ResetWeatherData",
+        "func": "msg.payload = \"\";\nmsg.params.unit = \"\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1300,
+        "x": 1900,
+        "y": 480,
+        "wires": [
+            [
+                "d2ad066b.bac498",
+                "fadc9fd2.efd73"
+            ]
+        ]
+    },
+    {
+        "id": "6c7176f0.582088",
+        "type": "change",
+        "z": "3dfdec7a.a1b244",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "datasetParameter",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1330,
         "y": 520,
         "wires": [
             [
-                "4f1a03e8.2e7c4c",
-                "f2c0b1e8.172ef"
+                "38f59d88.f8d7f2"
             ]
         ]
     },
     {
-        "id": "552b4a81.725b64",
-        "type": "function",
+        "id": "751d1c51.911c64",
+        "type": "change",
         "z": "3dfdec7a.a1b244",
         "name": "",
-        "func": "msg.topic = \"datasetYearMonth\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1300,
+        "rules": [
+            {
+                "t": "set",
+                "p": "datasetYearMonth",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1340,
         "y": 600,
         "wires": [
             [
-                "4f1a03e8.2e7c4c",
-                "d8021fb9.4c73a"
+                "38f59d88.f8d7f2"
             ]
         ]
     },
     {
-        "id": "f2c0b1e8.172ef",
-        "type": "debug",
+        "id": "ad50239b.7622c",
+        "type": "change",
         "z": "3dfdec7a.a1b244",
         "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1320,
-        "y": 480,
-        "wires": []
+        "rules": [
+            {
+                "t": "set",
+                "p": "weatherdata",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 860,
+        "y": 400,
+        "wires": [
+            [
+                "38f59d88.f8d7f2"
+            ]
+        ]
     },
     {
-        "id": "d8021fb9.4c73a",
-        "type": "debug",
-        "z": "3dfdec7a.a1b244",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1310,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "869b3ea6.2fce3",
+        "id": "2b06b4ea.be040c",
         "type": "function",
         "z": "3dfdec7a.a1b244",
-        "name": "",
-        "func": "msg.topic = \"dataset\";\nreturn msg;",
+        "name": "PrepareData",
+        "func": "yearMonthDataset = msg.payload.weatherdata.yearMonthMap[msg.payload.datasetYearMonth];\n\n\nfor (var data of yearMonthDataset) {\n    if (data.parameter.localeCompare(msg.payload.datasetParameter) == 0) {\n        //node.warn(data);\n        //node.warn(msg.payload.datasetParameter);\n        msg.payload = data.dataserie;\n        msg.params = {\n            unit: !data.unit ? \"N/A\" : data.unit\n        }\n        break;\n    }\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 910,
-        "y": 380,
+        "x": 1940,
+        "y": 580,
         "wires": [
             [
-                "4f1a03e8.2e7c4c"
+                "d2ad066b.bac498",
+                "8491956d.54f018",
+                "fadc9fd2.efd73"
             ]
         ]
+    },
+    {
+        "id": "8491956d.54f018",
+        "type": "debug",
+        "z": "3dfdec7a.a1b244",
+        "name": "PrepareData",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1930,
+        "y": 540,
+        "wires": []
     }
 ]
