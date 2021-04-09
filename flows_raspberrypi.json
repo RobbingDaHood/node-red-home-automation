@@ -21,13 +21,6 @@
         "info": ""
     },
     {
-        "id": "5d962ba5.9b5bc4",
-        "type": "tab",
-        "label": "Dashboard - Main Menu",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "3dfdec7a.a1b244",
         "type": "tab",
         "label": "Dashboard - TerasseEvent",
@@ -2323,31 +2316,6 @@
         "wires": []
     },
     {
-        "id": "2d612f04.c5a82",
-        "type": "ui_button",
-        "z": "5d962ba5.9b5bc4",
-        "name": "Testing",
-        "group": "dd0b04aa.9ebc28",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "button",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "icon": "",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 350,
-        "y": 220,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "2144df05.5661d",
         "type": "http in",
         "z": "ed98a99f.da5ee8",
@@ -2405,7 +2373,7 @@
         "type": "debug",
         "z": "3dfdec7a.a1b244",
         "name": "/TerasseEventsAndWeatherInfo",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
