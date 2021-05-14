@@ -706,7 +706,7 @@
         "y": 400,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "22117cae.7c5a34"
             ]
         ]
     },
@@ -753,7 +753,6 @@
         "y": 260,
         "wires": [
             [
-                "384ff88.60b8808",
                 "1478120e.81bf9e"
             ]
         ]
@@ -775,88 +774,9 @@
         "y": 780,
         "wires": [
             [
-                "d4e6f2c3.30ea4"
+                "55859151.d7ac5"
             ]
         ]
-    },
-    {
-        "id": "34a7eaa1.ba1806",
-        "type": "join",
-        "z": "c8d87243.5b455",
-        "name": "",
-        "mode": "custom",
-        "build": "array",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "",
-        "count": "14",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 3450,
-        "y": 420,
-        "wires": [
-            [
-                "81c3aa6b.2be498",
-                "75749e4c.9f02c",
-                "9b5e530e.f84cd"
-            ]
-        ]
-    },
-    {
-        "id": "81c3aa6b.2be498",
-        "type": "debug",
-        "z": "c8d87243.5b455",
-        "name": "join",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3450,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "d4e6f2c3.30ea4",
-        "type": "splitter",
-        "z": "c8d87243.5b455",
-        "name": "Split parameters",
-        "property": "payload",
-        "x": 3260,
-        "y": 780,
-        "wires": [
-            [
-                "e63c9366.4d864",
-                "34a7eaa1.ba1806"
-            ]
-        ]
-    },
-    {
-        "id": "e63c9366.4d864",
-        "type": "debug",
-        "z": "c8d87243.5b455",
-        "name": "split",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3270,
-        "y": 740,
-        "wires": []
     },
     {
         "id": "b5421f0f.7b8dd",
@@ -880,7 +800,7 @@
         "type": "function",
         "z": "c8d87243.5b455",
         "name": "MapRelevantFields",
-        "func": "newDatasets = [];\n\nfor (var dataset of msg.payload) {\n    newDataserie = [];\n\n    for (var data of dataset.dataserie) {\n        newDataserie.push(\n            {\n                timestamp: data.time,\n                value: data.valueOneDecimal\n            }\n        )\n    }\n    \n    newDatasets.push({\n        dataserie:newDataserie,\n        unit:dataset.unit, \n        parameter:dataset.parameter\n    })\n}\n\nmsg.payload = {\n    data:newDatasets\n}\n        \nreturn msg;",
+        "func": "newDatasets = [];\n\nfor (var dataset of msg.payloads) {\n    newDataserie = [];\n\n    for (var data of dataset.dataserie) {\n        newDataserie.push(\n            {\n                timestamp: data.time,\n                value: data.valueOneDecimal\n            }\n        )\n    }\n    \n    newDatasets.push({\n        dataserie:newDataserie,\n        unit:dataset.unit, \n        parameter:dataset.parameter\n    })\n}\n\nmsg.payload = {\n    data:newDatasets\n}\n        \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1200,17 +1120,8 @@
         "y": 560,
         "wires": [
             [
-                "614520f1.788b2",
-                "aee65909.1a9838",
                 "2939a5dc.31a41a",
-                "4bbfe53a.6dfddc",
-                "3e65897b.2f3ac6",
-                "cf893fc4.d5d3e",
-                "55cc196b.673938",
-                "9bed92fd.bcef9",
-                "e56e8c63.843eb",
-                "a4fe8d50.55605",
-                "7de8c9ee.3e75b8"
+                "5074a748.52c768"
             ]
         ]
     },
@@ -1261,11 +1172,11 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 3090,
-        "y": 820,
+        "x": 3070,
+        "y": 900,
         "wires": [
             [
-                "d4e6f2c3.30ea4"
+                "700543bd.f466cc"
             ]
         ]
     },
@@ -1286,7 +1197,7 @@
         "y": 440,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "7b264094.843ad"
             ]
         ]
     },
@@ -1307,7 +1218,7 @@
         "y": 480,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "ff83397.07284c8"
             ]
         ]
     },
@@ -1328,7 +1239,7 @@
         "y": 520,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "3d21dae1.1f1ff6"
             ]
         ]
     },
@@ -1349,7 +1260,7 @@
         "y": 560,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "f9d21b40.e52ac8"
             ]
         ]
     },
@@ -1370,7 +1281,7 @@
         "y": 600,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "b4ddc7f2.7ae088"
             ]
         ]
     },
@@ -1391,7 +1302,7 @@
         "y": 640,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "ed608e30.b24b4"
             ]
         ]
     },
@@ -1412,7 +1323,7 @@
         "y": 680,
         "wires": [
             [
-                "34a7eaa1.ba1806"
+                "a0aab030.5faeb"
             ]
         ]
     },
@@ -1974,23 +1885,6 @@
         "statusType": "auto",
         "x": 2410,
         "y": 740,
-        "wires": []
-    },
-    {
-        "id": "9b5e530e.f84cd",
-        "type": "debug",
-        "z": "c8d87243.5b455",
-        "name": "join",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "params",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3450,
-        "y": 340,
         "wires": []
     },
     {
@@ -2811,6 +2705,224 @@
         "statusType": "auto",
         "x": 1930,
         "y": 540,
+        "wires": []
+    },
+    {
+        "id": "700543bd.f466cc",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 900,
+        "wires": [
+            [
+                "aee65909.1a9838",
+                "1b336f5c.ab88c1"
+            ]
+        ]
+    },
+    {
+        "id": "5074a748.52c768",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "msg.payloads = [];\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 2860,
+        "y": 880,
+        "wires": [
+            [
+                "4bbfe53a.6dfddc"
+            ]
+        ]
+    },
+    {
+        "id": "55859151.d7ac5",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 780,
+        "wires": [
+            [
+                "7de8c9ee.3e75b8"
+            ]
+        ]
+    },
+    {
+        "id": "a0aab030.5faeb",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 680,
+        "wires": [
+            [
+                "a4fe8d50.55605"
+            ]
+        ]
+    },
+    {
+        "id": "ed608e30.b24b4",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 640,
+        "wires": [
+            [
+                "e56e8c63.843eb"
+            ]
+        ]
+    },
+    {
+        "id": "b4ddc7f2.7ae088",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 600,
+        "wires": [
+            [
+                "9bed92fd.bcef9"
+            ]
+        ]
+    },
+    {
+        "id": "f9d21b40.e52ac8",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 560,
+        "wires": [
+            [
+                "55cc196b.673938",
+                "1b336f5c.ab88c1"
+            ]
+        ]
+    },
+    {
+        "id": "3d21dae1.1f1ff6",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 520,
+        "wires": [
+            [
+                "cf893fc4.d5d3e"
+            ]
+        ]
+    },
+    {
+        "id": "ff83397.07284c8",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 480,
+        "wires": [
+            [
+                "3e65897b.2f3ac6"
+            ]
+        ]
+    },
+    {
+        "id": "7b264094.843ad",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 440,
+        "wires": [
+            [
+                "614520f1.788b2"
+            ]
+        ]
+    },
+    {
+        "id": "22117cae.7c5a34",
+        "type": "function",
+        "z": "c8d87243.5b455",
+        "name": "",
+        "func": "if (Array.isArray(msg.payload)) {\n    for (var pay of msg.payload) {\n        msg.payloads.push(pay)\n    }\n} else {\n    msg.payloads.push(msg.payload)\n}\n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 3260,
+        "y": 400,
+        "wires": [
+            [
+                "75749e4c.9f02c",
+                "1b336f5c.ab88c1"
+            ]
+        ]
+    },
+    {
+        "id": "1b336f5c.ab88c1",
+        "type": "debug",
+        "z": "c8d87243.5b455",
+        "name": "Calls",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payloads",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3680,
+        "y": 660,
         "wires": []
     }
 ]
