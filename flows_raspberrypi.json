@@ -21,6 +21,13 @@
         "info": ""
     },
     {
+        "id": "cfad371a.b1b4a8",
+        "type": "tab",
+        "label": "Report",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "3dfdec7a.a1b244",
         "type": "tab",
         "label": "Dashboard - TerasseEvent",
@@ -2077,71 +2084,6 @@
         ]
     },
     {
-        "id": "f93efb3.9690908",
-        "type": "link in",
-        "z": "ed98a99f.da5ee8",
-        "name": "TerasseEventToWeatherInfoIn",
-        "links": [
-            "a15d7ecd.681e8"
-        ],
-        "x": 1835,
-        "y": 960,
-        "wires": [
-            [
-                "b003527f.59184",
-                "2d2f52a3.0f057e"
-            ]
-        ]
-    },
-    {
-        "id": "73d71c7a.359884",
-        "type": "link out",
-        "z": "ed98a99f.da5ee8",
-        "name": "TerasseEventToWeatherInfoOut",
-        "links": [
-            "e378080b.977338"
-        ],
-        "x": 1835,
-        "y": 1000,
-        "wires": []
-    },
-    {
-        "id": "9e2f8058.41fd6",
-        "type": "function",
-        "z": "ed98a99f.da5ee8",
-        "name": "MapToLInk",
-        "func": "msg.req = {\n    params : {\n        month:msg.payload.month,\n        year:msg.payload.year\n    }\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1730,
-        "y": 1020,
-        "wires": [
-            [
-                "73d71c7a.359884",
-                "587bb49.167894c"
-            ]
-        ]
-    },
-    {
-        "id": "587bb49.167894c",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "MapToLInk",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "req.params",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1710,
-        "y": 980,
-        "wires": []
-    },
-    {
         "id": "b029a535.a0c358",
         "type": "debug",
         "z": "c8d87243.5b455",
@@ -2173,40 +2115,6 @@
         "statusType": "auto",
         "x": 1530,
         "y": 740,
-        "wires": []
-    },
-    {
-        "id": "b003527f.59184",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "TerasseEventToWeatherInfoIn",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 2110,
-        "y": 1080,
-        "wires": []
-    },
-    {
-        "id": "2d2f52a3.0f057e",
-        "type": "debug",
-        "z": "ed98a99f.da5ee8",
-        "name": "TerasseEventToWeatherInfoIn",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "parts",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 2110,
-        "y": 1040,
         "wires": []
     },
     {
@@ -2924,5 +2832,126 @@
         "x": 3680,
         "y": 660,
         "wires": []
+    },
+    {
+        "id": "847ded04.5ac03",
+        "type": "http in",
+        "z": "cfad371a.b1b4a8",
+        "name": "GetCSVReport",
+        "url": "/TheReport",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "d1a69216.4920d"
+            ]
+        ]
+    },
+    {
+        "id": "d1a69216.4920d",
+        "type": "http request",
+        "z": "cfad371a.b1b4a8",
+        "name": "/TerasseEventsAndWeatherInfo",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/TerasseEventsAndWeatherInfo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 430,
+        "y": 260,
+        "wires": [
+            [
+                "cb75979a.11ee68",
+                "60ea6c58.6abe74"
+            ]
+        ]
+    },
+    {
+        "id": "cb75979a.11ee68",
+        "type": "debug",
+        "z": "cfad371a.b1b4a8",
+        "name": "/TerasseEventsAndWeatherInfo",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "60ea6c58.6abe74",
+        "type": "function",
+        "z": "cfad371a.b1b4a8",
+        "name": "GetColumns",
+        "func": "msg.payload.columns = {};\n\nfor (const row in msg.payload.yearMonthMap) {\n    for (const data of msg.payload.yearMonthMap[row]) {\n        msg.payload.columns[data.parameter] = \"token\";\n   }\n}\n\nmsg.payload.columns = Object.keys(msg.payload.columns);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 790,
+        "y": 260,
+        "wires": [
+            [
+                "22d19b4b.023664",
+                "1c4dab5f.98e5a5"
+            ]
+        ]
+    },
+    {
+        "id": "288221bc.12d52e",
+        "type": "http response",
+        "z": "cfad371a.b1b4a8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1460,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "22d19b4b.023664",
+        "type": "debug",
+        "z": "cfad371a.b1b4a8",
+        "name": "GetColumns",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "1c4dab5f.98e5a5",
+        "type": "function",
+        "z": "cfad371a.b1b4a8",
+        "name": "",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1080,
+        "y": 260,
+        "wires": [
+            [
+                "288221bc.12d52e"
+            ]
+        ]
     }
 ]
